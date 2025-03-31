@@ -110,5 +110,22 @@ public class ReadingHabitDao {
          return count;
      }
 
+     public boolean addHabit(int userId, int bookId, int pagesRead) throws SQLException {
+        // Assumes submissionMoment defaults to CURRENT_TIMESTAMP or is handled by DB trigger
+        String sql = "INSERT INTO ReadingHabit (userID, bookID, pagesRead) VALUES (?, ?, ?)";
+        boolean success = false;
+        try (Connection conn = DatabaseConnector.connect();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+    
+            pstmt.setInt(1, userId);
+            pstmt.setInt(2, bookId);
+            pstmt.setInt(3, pagesRead);
+            int affectedRows = pstmt.executeUpdate();
+            if (affectedRows > 0) {
+                success = true;
+            }
+        } // SQLException propagates up
+        return success;
+    }
      // Future method: addReadingHabit(ReadingHabit habit) ...
 }

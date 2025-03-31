@@ -15,12 +15,13 @@ This project successfully implements the core requirements outlined in the PI 8 
     * [7] Calculate and display the total number of pages read across all users and habits.
     * [8] Count and display the total number of users who have read more than one distinct book.
     * [9] Dynamically add the `Name` column (TEXT) to the `User` table on application startup if it doesn't exist.
-5.  Refactored user interface for clearer presentation (headers, status messages, separators). *(Self-correction: Added UI improvement as part of MVP effort)*
+5.  Refactored user interface for clearer presentation (headers, status messages, separators).
 
 ## Implemented Enhancements (Beyond MVP)
 
 * **Database Normalization:** The database schema was enhanced by creating a separate `Books` table (`bookID` PK, `title` UNIQUE) and modifying the `ReadingHabit` table to use a `bookID` foreign key. This reduces data redundancy and improves data integrity. The SQL migration steps are documented in `data/normalization.sql`.
 * **DAO Pattern Implementation:** The database interaction logic was refactored from `Main.java` into separate Data Access Object (DAO) classes (`UserDao`, `BookDao`, `ReadingHabitDao`) and corresponding Model classes (`User`, `Book`, `ReadingHabit`). This improves code organization, maintainability, and separation of concerns.
+* **Add Reading Habit Functionality:** Added a menu option (#10) allowing users to manually input a new reading habit (UserID, Book Title, Pages Read). This function utilizes the DAO pattern, looks up or creates the book in the `Books` table (via `BookDao`), and inserts the new record into the `ReadingHabit` table (via `ReadingHabitDao`), making the application more functionally complete.
 
 ## Potential Future Enhancements
 
@@ -33,7 +34,6 @@ While the current version meets the assignment requirements and includes signifi
 
 **Enhanced Functionality:**
 
-* **Add Reading Habit:** Implement a menu option (#10) to manually add a new reading habit record (handling `bookID` lookup/creation).
 * **List All Users/Books:** Add options to display all users or all books.
 * **Advanced Statistics:** Implement more complex SQL queries (e.g., most read book, users with no habits).
 * **Search Functionality:** Allow searching for users by name or books by title.

@@ -80,6 +80,9 @@ public class Main {
             case 9:
                 System.out.println("INFO: Functionality 9 (Add Name column) checked/executed on startup.");
                 break;
+            case 10:
+                addReadingHabitAction(scanner);
+                break;
             case 0:
                 // Handled in main loop exit condition
                 break;
@@ -103,6 +106,7 @@ public class Main {
         System.out.println(" 8. Show Users Reading >1 Book");
         System.out.println(" --------------------------------------");
         System.out.println(" 9. (Info) Add 'Name' column (startup)");
+        System.out.println(" 10. Add Reading Habit");
         System.out.println(" 0. Exit Application");
         System.out.println("========================================");
         System.out.print("Enter your choice: ");
@@ -395,5 +399,72 @@ public class Main {
         }
          System.out.println("----------------------------------------------");
     }
+        // Action for Menu Option 10
+    private static void addReadingHabitAction(Scanner scanner) {
+        System.out.println("\n--- 10. Add Reading Habit ---");
+        int userId;
+        String bookTitle;
+        int pagesRead;
+        int bookId = -1; // Initialize bookId to invalid state
 
-} 
+        try {
+            System.out.print("Enter User ID for the habit: ");
+            userId = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            // Optional: Check if user exists using UserDao first (Good Validation)
+            // if (!userDao.userExists(userId)) { // Assuming userExists method exists
+            //     System.err.println("ERROR: User with ID " + userId + " does not exist.");
+            //     System.out.println("---------------------------");
+            //     return;
+            // }
+
+            System.out.print("Enter Book Title: ");
+            bookTitle = scanner.nextLine();
+            if (bookTitle.trim().isEmpty()) {
+                System.out.println("WARNING: Book title cannot be empty.");
+                System.out.println("---------------------------");
+                return;
+            }
+
+            System.out.print("Enter Pages Read: ");
+            pagesRead = scanner.nextInt();
+            scanner.nextLine(); // Consume newline
+
+            if (pagesRead < 0) {
+                System.out.println("WARNING: Pages read cannot be negative.");
+                System.out.println("---------------------------");
+                return;
+            }
+
+            // --- Interaction with DAOs ---
+            try {
+                // 1. Find or Create Book to get bookID
+                // Assuming findOrCreateBook method exists in BookDao as shown previously
+                bookId = bookDao.findOrCreateBook(bookTitle);
+
+                // 2. If bookID is valid, add the habit
+                if (bookId > 0) {
+                    boolean success = readingHabitDao.addHabit(userId, bookId, pagesRead);
+                    if (success) {
+                        System.out.println("SUCCESS: Reading habit added successfully!");
+                    } else {
+                        System.out.println("INFO: Could not add reading habit.");
+                    }
+                } else {
+                    // This case should ideally be handled within findOrCreateBook
+                    System.err.println("ERROR: Could not find or create book ID for the title.");
+                }
+
+            } catch (SQLException e) {
+                System.err.println("ERROR during database operation: " + e.getMessage());
+            }
+            // --- End Interaction with DAOs ---
+
+        } catch (InputMismatchException e) {
+            System.err.println("ERROR: Invalid input type. Please enter numbers for ID and Pages Read.");
+            scanner.nextLine(); // Consume the invalid input
+        }
+        System.out.println("---------------------------");
+    }
+}
