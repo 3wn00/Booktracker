@@ -1,27 +1,29 @@
-# Compiled Java class files
-*.class
-bin/
-out/
-target/
+# Compiled Java class files output directory
+/out/
 
-# IDE files
-.idea/
-*.iml
+# VS Code specific settings (optional, but common)
 .vscode/
-.project
-.classpath
-.settings/
 
-# Build tool files
-build/
-.gradle/
-
-# Logs
+# Log files
 *.log
 
-# OS generated files
+# SQLite temporary files (generated during transactions)
+*-journal
+*-wal
+*-shm
+# More specific versions:
+# Booktracker.db-journal
+# Booktracker.db-wal
+# Booktracker.db-shm
+
+# Operating System generated files
 .DS_Store
 Thumbs.db
 
-# Optional: Database file if you don't want to commit it directly
-# Booktracker.db
+# Editor temporary files
+*~
+*.swp
+
+# Structure file for the project
+structure.txt
+
