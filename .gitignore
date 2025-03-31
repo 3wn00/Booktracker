@@ -1,0 +1,27 @@
+# Compiled Java class files
+*.class
+bin/
+out/
+target/
+
+# IDE files
+.idea/
+*.iml
+.vscode/
+.project
+.classpath
+.settings/
+
+# Build tool files
+build/
+.gradle/
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Optional: Database file if you don't want to commit it directly
+# Booktracker.db
